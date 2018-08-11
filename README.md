@@ -39,7 +39,7 @@ The goal of this project is to implement Model Predictive Control to drive the c
 3. Compile: `cmake .. && make`
 4. Run it: `./mpc`.
 
-## Models
+### Model
 
 The model I implemted is as follows: 
 ```
@@ -63,6 +63,23 @@ double epsi_delay = epsi0 - ( v * atan(coeffs[1]) * dT / Lf );
 ```
 
 where ```dT``` is the delay set to 100ms. 
-```a``` is the the throlttle value
-```delta``` is the speed of the car
 
+```a``` is the the throlttle value
+
+```delta``` is the steering angle.
+
+### Selection of N and dT
+
+I used the value (N,dT) = (20, 0.05) initially but if produced erratic behavior. Then is used (N,dT) = (10, 0.1) and produced a stable behavior on the track. 
+
+### Polynomial Fitting and MPC Preprocessing
+
+The model was implemented in the code ```MPC.cpp``` in the lines 132-206. and used a plynomial fitting of 3rd degree at line in ```main.cpp``` : 
+
+```
+auto coeffs = polyfit(ptsx_transformed,ptsy_transformed,3);
+```
+
+### Model Predictive Control with Latency
+
+To handle actuator latency, the state values are calculated using the model and the delay interval. These values are used instead of the initial one. The code implementing that could be found at ./src/main.cpp from line 110 to line 201.
