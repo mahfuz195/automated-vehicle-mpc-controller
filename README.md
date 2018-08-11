@@ -61,3 +61,8 @@ double v_delay = v + a * dT;
 double cte_delay = cte0 + ( v * sin(epsi0) * dT );
 double epsi_delay = epsi0 - ( v * atan(coeffs[1]) * dT / Lf );     
 ```
+
+where ```dT``` is the delay set to 100ms. 
+```a``` is the the throlttle value
+```delta``` is the speed of the car
+
