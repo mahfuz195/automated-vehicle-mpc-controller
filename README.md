@@ -1,4 +1,4 @@
-# Model predictive Control Term 2 Project 5 
+# Term 2 Project 5: Model Predictive Control (MPC)  
 
 ---
 The goal of this project is to implement Model Predictive Control to drive the car around the track.
