@@ -109,47 +109,59 @@ int main() {
           double throttle_value;
           const double dT = 0.1;
           const double Lf = 2.67;
-          size_t n_waypoints = ptsx.size(); //number of way points
-          
-          VectorXd ptsx_transformed = Eigen::VectorXd(n_waypoints);
-          VectorXd ptsy_transformed = Eigen::VectorXd(n_waypoints); 
 
-          for(unsigned int i = 0 ; i < n_waypoints ; i++){
+          size_t n = ptsx.size(); //number of way points
+          
+          VectorXd ptsx_new = Eigen::VectorXd(n);
+          VectorXd ptsy_new = Eigen::VectorXd(n); 
+
+          for(unsigned int i = 0 ; i < n ; i++){
             const double dx = ptsx[i] - px; 
             const double dy = ptsy[i] - py; 
             
-            ptsx_transformed[i] = dx* cos(-psi) - dy* sin(-psi);
-            ptsy_transformed[i] = dx* sin(-psi) + dy* cos(-psi);
+            ptsx_new[i] = dx* cos(-psi) - dy* sin(-psi);
+            ptsy_new[i] = dx* sin(-psi) + dy* cos(-psi);
  
           }
 
           // fit the plynomoial
           cout << "Fitting Ploynomial" <<endl;
-          auto coeffs = polyfit(ptsx_transformed,ptsy_transformed,3);
+          auto coeffs = polyfit(ptsx_new,ptsy_new,3);
 
                  
           
           // Initial state.
+          /*
           const double x0 = 0;
           const double y0 = 0;
           const double psi0 = 0;
           const double cte0 = coeffs[0];
           const double epsi0 = -atan(coeffs[1]);
+          */
+
+          //from lecture.
+          double x = 0;
+          double y = 0;
+          // TODO: calculate the cross track error
+          double cte = polyeval(coeffs, 0);
+          // TODO: calculate the orientation error
+          double epsi = -atan(coeffs[1]);
+
 
           // Kinematic model is used to predict vehicle state at the actual
           // moment of control (current time + delay dt)
 
             // State after delay.
-          double x_delay = x0 + ( v * cos(psi0) * dT );
-          double y_delay = y0 + ( v * sin(psi0) * dT );
-          double psi_delay = psi0 - ( v * delta * dT / Lf);
-          double v_delay = v + a * dT;
-          double cte_delay = cte0 + ( v * sin(epsi0) * dT );
-          double epsi_delay = epsi0 - ( v * atan(coeffs[1]) * dT / Lf );        
+          double x_next = x + ( v * cos(0) * dT );
+          double y_next = y + ( v * sin(0) * dT );
+          double psi_next = -((v*delta*dT) / Lf);
+          double v_next = v + a * dT;
+          double cte_next = cte + (v*sin(epsi)*dT );
+          double epsi_next = epsi - (v* delta * dT / Lf );        
           
           // Define the state vector.
           Eigen::VectorXd state(6);
-          state << x_delay, y_delay, psi_delay, v_delay, cte_delay, epsi_delay;
+          state << x_next, y_next, psi_next, v_next, cte_next, epsi_next;
 
           // Find the MPC solution.
           cout << "Calling MPC Solver" <<endl;
@@ -174,12 +186,8 @@ int main() {
           vector<double> mpc_x_vals;
           vector<double> mpc_y_vals;
 
-          for ( int i = 2; i < vars.size(); i++ ) {
-            if ( i % 2 == 0 ) {
-              mpc_x_vals.push_back( vars[i] );
-            } else {
-              mpc_y_vals.push_back( vars[i] );
-            }
+          for (unsigned int i = 2; i < vars.size(); i++ ) {
+            (i%2==0)?mpc_x_vals.push_back(vars[i]):mpc_y_vals.push_back(vars[i] );
           }
 
           msgJson["mpc_x"] = mpc_x_vals;
@@ -192,12 +200,11 @@ int main() {
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
           // the points in the simulator are connected by a Green line
          
-          double poly_inc = 2.5;
-          int num_points = 30;
-          for ( int i = 0; i < num_points; i++ ) {
-            double x = poly_inc * i;
-            next_x_vals.push_back( x );
-            next_y_vals.push_back( polyeval(coeffs, x) );
+          double poly_inc = Lf;
+          int num_points = 25;
+          for (int i = 0; i < num_points; i++ ) {
+            next_x_vals.push_back( poly_inc * i; );
+            next_y_vals.push_back( polyeval(coeffs, poly_inc * i));
           }
 
 

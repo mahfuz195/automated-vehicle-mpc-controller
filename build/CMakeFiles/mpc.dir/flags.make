@@ -6,5 +6,5 @@ CXX_FLAGS = -Wall   -std=c++11 -O3
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/usr/local/include -I/home/mahfi/project5/sample/CarND-MPC-Project/src/Eigen-3.3 
+CXX_INCLUDES = -I/usr/local/include -I/home/mahfi/project5/my_git/mpc-controller/src/Eigen-3.3 
 

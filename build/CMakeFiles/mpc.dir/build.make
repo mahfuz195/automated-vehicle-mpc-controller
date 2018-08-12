@@ -43,10 +43,10 @@ RM = /usr/local/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/mahfi/project5/sample/CarND-MPC-Project
+CMAKE_SOURCE_DIR = /home/mahfi/project5/my_git/mpc-controller
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mahfi/project5/sample/CarND-MPC-Project/build
+CMAKE_BINARY_DIR = /home/mahfi/project5/my_git/mpc-controller/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/mpc.dir/depend.make
@@ -59,29 +59,29 @@ include CMakeFiles/mpc.dir/flags.make
 
 CMakeFiles/mpc.dir/src/MPC.cpp.o: CMakeFiles/mpc.dir/flags.make
 CMakeFiles/mpc.dir/src/MPC.cpp.o: ../src/MPC.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mahfi/project5/sample/CarND-MPC-Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/mpc.dir/src/MPC.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/mpc.dir/src/MPC.cpp.o -c /home/mahfi/project5/sample/CarND-MPC-Project/src/MPC.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mahfi/project5/my_git/mpc-controller/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/mpc.dir/src/MPC.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/mpc.dir/src/MPC.cpp.o -c /home/mahfi/project5/my_git/mpc-controller/src/MPC.cpp
 
 CMakeFiles/mpc.dir/src/MPC.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/mpc.dir/src/MPC.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mahfi/project5/sample/CarND-MPC-Project/src/MPC.cpp > CMakeFiles/mpc.dir/src/MPC.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mahfi/project5/my_git/mpc-controller/src/MPC.cpp > CMakeFiles/mpc.dir/src/MPC.cpp.i
 
 CMakeFiles/mpc.dir/src/MPC.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/mpc.dir/src/MPC.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mahfi/project5/sample/CarND-MPC-Project/src/MPC.cpp -o CMakeFiles/mpc.dir/src/MPC.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mahfi/project5/my_git/mpc-controller/src/MPC.cpp -o CMakeFiles/mpc.dir/src/MPC.cpp.s
 
 CMakeFiles/mpc.dir/src/main.cpp.o: CMakeFiles/mpc.dir/flags.make
 CMakeFiles/mpc.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mahfi/project5/sample/CarND-MPC-Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/mpc.dir/src/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/mpc.dir/src/main.cpp.o -c /home/mahfi/project5/sample/CarND-MPC-Project/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mahfi/project5/my_git/mpc-controller/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/mpc.dir/src/main.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/mpc.dir/src/main.cpp.o -c /home/mahfi/project5/my_git/mpc-controller/src/main.cpp
 
 CMakeFiles/mpc.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/mpc.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mahfi/project5/sample/CarND-MPC-Project/src/main.cpp > CMakeFiles/mpc.dir/src/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mahfi/project5/my_git/mpc-controller/src/main.cpp > CMakeFiles/mpc.dir/src/main.cpp.i
 
 CMakeFiles/mpc.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/mpc.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mahfi/project5/sample/CarND-MPC-Project/src/main.cpp -o CMakeFiles/mpc.dir/src/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mahfi/project5/my_git/mpc-controller/src/main.cpp -o CMakeFiles/mpc.dir/src/main.cpp.s
 
 # Object files for target mpc
 mpc_OBJECTS = \
@@ -95,7 +95,7 @@ mpc: CMakeFiles/mpc.dir/src/MPC.cpp.o
 mpc: CMakeFiles/mpc.dir/src/main.cpp.o
 mpc: CMakeFiles/mpc.dir/build.make
 mpc: CMakeFiles/mpc.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mahfi/project5/sample/CarND-MPC-Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable mpc"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mahfi/project5/my_git/mpc-controller/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable mpc"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/mpc.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -108,6 +108,6 @@ CMakeFiles/mpc.dir/clean:
 .PHONY : CMakeFiles/mpc.dir/clean
 
 CMakeFiles/mpc.dir/depend:
-	cd /home/mahfi/project5/sample/CarND-MPC-Project/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/mahfi/project5/sample/CarND-MPC-Project /home/mahfi/project5/sample/CarND-MPC-Project /home/mahfi/project5/sample/CarND-MPC-Project/build /home/mahfi/project5/sample/CarND-MPC-Project/build /home/mahfi/project5/sample/CarND-MPC-Project/build/CMakeFiles/mpc.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/mahfi/project5/my_git/mpc-controller/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/mahfi/project5/my_git/mpc-controller /home/mahfi/project5/my_git/mpc-controller /home/mahfi/project5/my_git/mpc-controller/build /home/mahfi/project5/my_git/mpc-controller/build /home/mahfi/project5/my_git/mpc-controller/build/CMakeFiles/mpc.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/mpc.dir/depend
 

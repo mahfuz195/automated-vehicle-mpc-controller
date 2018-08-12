@@ -1,4 +1,4 @@
-# Install script for directory: /home/mahfi/project5/sample/CarND-MPC-Project
+# Install script for directory: /home/mahfi/project5/my_git/mpc-controller
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/mahfi/project5/sample/CarND-MPC-Project/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/mahfi/project5/my_git/mpc-controller/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
