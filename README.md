@@ -8,7 +8,7 @@ The goal of this project is to implement Model Predictive Control to drive the c
 
 ### Model
 
-As per the lecture seris, I used a global kinematic model, which is a simplification of a dynamic model that ignores tire forces, gravity and mass. The state model is represented by the vehicles position, orientation angle (in radians) and velocity. The global kinematic model is as follows:
+As per the lecture series, I used a global kinematic model, which is a simplification of a dynamic model that ignores tire forces, gravity and mass. The state model is represented by the vehicles position, orientation angle (in radians) and velocity. The global kinematic model is as follows:
 
 ![alt text][image1]
 
