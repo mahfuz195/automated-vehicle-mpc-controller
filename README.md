@@ -3,6 +3,14 @@
 ---
 The goal of this project is to implement Model Predictive Control to drive the car around the track.
 
+### Project output
+
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/MoWPw6ZHvQg/0.jpg)](https://youtu.be/MoWPw6ZHvQg "MPC Output with N=10, dT= 0.05")
+
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/hY0dwCbiBdg/0.jpg)](https://youtu.be/hY0dwCbiBdg "MPC Output with N=20, dT= 0.05")
+
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/1na6xRt9zgQ/0.jpg)](https://youtu.be/1na6xRt9zgQ "MPC Output with N=20, dT= 0.1")
+
 
 ## Dependencies
 
