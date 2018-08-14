@@ -14,11 +14,11 @@ As per the lecture seris, I used a global kinematic model, which is a simplifica
 
 Using Model Predictive Controller(MPC), the Vehicle model can be converted into an optimization problem, where the goal is to reduce the cross track error(CTE), and orientaiton error(epsi). The formula for optimization is as follows: 
 
-![alt text][image1]
+![alt text][image2]
 
 I tuned the weights manually as follows: 
 
-|        | Value   |
+|   Cost Components     | Value   |
 | ------:|-------:|
 | CTE     	| 2000 |
 |  EPSI     	| 2000 |
@@ -28,36 +28,40 @@ I tuned the weights manually as follows:
 | Rate of chnage of steering angle	| 400000 |
 | Rate of chnage of throttle		 	| 8000 |
 
-where ```dT``` is the delay set to 100ms. 
-
-```a``` is the the throlttle value
-
-```delta``` is the steering angle.
 
 ### Selection of N and dT
 
-I used the value (N,dT) = (20, 0.05) initially but if produced erratic behavior. Then is used (N,dT) = (10, 0.1) and produced a stable behavior on the track. 
+Selecting the value of N and dT was crucial. As, A higher N adds to more computational since more calculations are needed if dt remains the same. Same goes for a lower value of dt, if N remains same. First, I selected the prediction horizeon as 0.5 second, As 0.5-2 seconds are a resonable horizon of time prediction for a moving car. So, Initially I selected the value dt=0.05 and N=10. It gave me a good result, as follows: 
+
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/MoWPw6ZHvQg/0.jpg)](https://youtu.be/MoWPw6ZHvQg "MPC Output with N=10, dT= 0.05")
+
+Then I increased the value of N=20 and dt=0.05, making a time horizon of 1 sec. But the result was erratic and the car went of the track. The output is as below:
+
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/hY0dwCbiBdg/0.jpg)](https://youtu.be/hY0dwCbiBdg "MPC Output with N=20, dT= 0.05")
+
+Finally, I selected N=10, and dt=0.1, having a time horizon of 1 sec. The choice of 0.1s for dt results in actuations every 100ms which is good enough for this exercise and produced a stable behavior on the track. The final output is as shown below:
+
+
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/1na6xRt9zgQ/0.jpg)](https://youtu.be/1na6xRt9zgQ "MPC Output with N=20, dT= 0.1")
+
 
 ### Polynomial Fitting and MPC Preprocessing
 
-The model was implemented in the code ```MPC.cpp``` in the lines 132-206. and used a plynomial fitting of 3rd degree at line in ```main.cpp``` : 
-
+The model was implemented in the code ```MPC.cpp``` in the lines 111-118:
 ```
-auto coeffs = polyfit(ptsx_transformed,ptsy_transformed,3);
+AD<double> c0 = coeffs[0];
+AD<double> c1 = coeffs[1];
+AD<double> c2 = coeffs[2];
+AD<double> c3 = coeffs[3];
+
+AD<double> f0 = c0 + (c1 * x0) + (c2*CppAD::pow(x0,2))+ (c3*CppAD::pow(x0, 3));
+AD<double> psides0 = CppAD::atan(c1 + (2*c2*x0) + (3*c3*CppAD::pow(x0,2)));
+
 ```
 
 ### Model Predictive Control with Latency
 
-To handle actuator latency, the state values are calculated using the model and the delay interval. These values are used instead of the initial one. The code implementing that could be found at ./src/main.cpp from line 110 to line 201.
-
-### Project output
-
-[![IMAGE ALT TEXT](http://img.youtube.com/vi/MoWPw6ZHvQg/0.jpg)](https://youtu.be/MoWPw6ZHvQg "MPC Output with N=10, dT= 0.05")
-
-[![IMAGE ALT TEXT](http://img.youtube.com/vi/hY0dwCbiBdg/0.jpg)](https://youtu.be/hY0dwCbiBdg "MPC Output with N=20, dT= 0.05")
-
-[![IMAGE ALT TEXT](http://img.youtube.com/vi/1na6xRt9zgQ/0.jpg)](https://youtu.be/1na6xRt9zgQ "MPC Output with N=20, dT= 0.1")
-
+To handle actuator latency, the state values are calculated using the model and the delay interval. These values are used instead of the initial one. The code implementing that could be found at ./src/main.cpp from line 110 to line 213.
 
 ## Dependencies
 
