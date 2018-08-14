@@ -1,7 +1,54 @@
 # Term 2 Project 5: Model Predictive Control (MPC)  
 
----
 The goal of this project is to implement Model Predictive Control to drive the car around the track.
+
+[image1]: model.PNG "Vehicle Model"
+[image2]: cost.gif  "Cost Function"
+
+
+### Model
+
+As per the lecture seris, I used a global kinematic model, which is a simplification of a dynamic model that ignores tire forces, gravity and mass. The state model is represented by the vehicles position, orientation angle (in radians) and velocity. The global kinematic model is as follows:
+
+![alt text][image1]
+
+Using Model Predictive Controller(MPC), the Vehicle model can be converted into an optimization problem, where the goal is to reduce the cross track error(CTE), and orientaiton error(epsi). The formula for optimization is as follows: 
+
+![alt text][image1]
+
+I tuned the weights manually as follows: 
+
+|        | Value   |
+| ------:|-------:|
+| CTE     	| 2000 |
+|  EPSI     	| 2000 |
+| Speed	 		| 1 |
+| Steering angle	 	| 25 |
+| Throttle	 		| 25 |
+| Rate of chnage of steering angle	| 400000 |
+| Rate of chnage of throttle		 	| 8000 |
+
+where ```dT``` is the delay set to 100ms. 
+
+```a``` is the the throlttle value
+
+```delta``` is the steering angle.
+
+### Selection of N and dT
+
+I used the value (N,dT) = (20, 0.05) initially but if produced erratic behavior. Then is used (N,dT) = (10, 0.1) and produced a stable behavior on the track. 
+
+### Polynomial Fitting and MPC Preprocessing
+
+The model was implemented in the code ```MPC.cpp``` in the lines 132-206. and used a plynomial fitting of 3rd degree at line in ```main.cpp``` : 
+
+```
+auto coeffs = polyfit(ptsx_transformed,ptsy_transformed,3);
+```
+
+### Model Predictive Control with Latency
+
+To handle actuator latency, the state values are calculated using the model and the delay interval. These values are used instead of the initial one. The code implementing that could be found at ./src/main.cpp from line 110 to line 201.
 
 ### Project output
 
@@ -47,50 +94,3 @@ The goal of this project is to implement Model Predictive Control to drive the c
 3. Compile: `cmake .. && make`
 4. Run it: `./mpc`.
 
-### Model
-
-The model I implemted is as follows: 
-```
-// Initial state.
-const double x0 = 0;
-const double y0 = 0;
-const double psi0 = 0;
-const double cte0 = coeffs[0];
-const double epsi0 = -atan(coeffs[1]);
-
-// Kinematic model is used to predict vehicle state at the actual
-// moment of control (current time + delay dt)
-
-  // State after delay.
-double x_delay = x0 + ( v * cos(psi0) * dT );
-double y_delay = y0 + ( v * sin(psi0) * dT );
-double psi_delay = psi0 - ( v * delta * dT / Lf);
-double v_delay = v + a * dT;
-double cte_delay = cte0 + ( v * sin(epsi0) * dT );
-double epsi_delay = epsi0 - ( v * atan(coeffs[1]) * dT / Lf );     
-```
-[image1]: model.PNG "Vehicle Model"
-
-![alt text][image1]
-
-where ```dT``` is the delay set to 100ms. 
-
-```a``` is the the throlttle value
-
-```delta``` is the steering angle.
-
-### Selection of N and dT
-
-I used the value (N,dT) = (20, 0.05) initially but if produced erratic behavior. Then is used (N,dT) = (10, 0.1) and produced a stable behavior on the track. 
-
-### Polynomial Fitting and MPC Preprocessing
-
-The model was implemented in the code ```MPC.cpp``` in the lines 132-206. and used a plynomial fitting of 3rd degree at line in ```main.cpp``` : 
-
-```
-auto coeffs = polyfit(ptsx_transformed,ptsy_transformed,3);
-```
-
-### Model Predictive Control with Latency
-
-To handle actuator latency, the state values are calculated using the model and the delay interval. These values are used instead of the initial one. The code implementing that could be found at ./src/main.cpp from line 110 to line 201.
