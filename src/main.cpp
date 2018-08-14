@@ -125,7 +125,7 @@ int main() {
           }
 
           // fit the plynomoial
-          cout << "Fitting Ploynomial" <<endl;
+          //cout << "Fitting Ploynomial" <<endl;
           auto coeffs = polyfit(ptsx_new,ptsy_new,3);
 
                  
@@ -152,8 +152,8 @@ int main() {
           // moment of control (current time + delay dt)
 
             // State after delay.
-          double x_next = x + ( v * cos(0) * dT );
-          double y_next = y + ( v * sin(0) * dT );
+          double x_next = x+ v * dT ; //sin(0) yields 1
+          double y_next = y ; //cos(0) yeilds zero, ultimately y_next is zero always 
           double psi_next = -((v*delta*dT) / Lf);
           double v_next = v + a * dT;
           double cte_next = cte + (v*sin(epsi)*dT );
@@ -164,10 +164,10 @@ int main() {
           state << x_next, y_next, psi_next, v_next, cte_next, epsi_next;
 
           // Find the MPC solution.
-          cout << "Calling MPC Solver" <<endl;
+          //cout << "Calling MPC Solver" <<endl;
           auto vars = mpc.Solve(state, coeffs);
 
-          steer_value = vars[0]/deg2rad(25);
+          steer_value = vars[0]/(deg2rad(25)*Lf);
           throttle_value = vars[1];
 
           //Display the waypoints/reference line
@@ -187,7 +187,12 @@ int main() {
           vector<double> mpc_y_vals;
 
           for (unsigned int i = 2; i < vars.size(); i++ ) {
-            (i%2==0)?mpc_x_vals.push_back(vars[i]):mpc_y_vals.push_back(vars[i] );
+            if(i%2==0){
+              mpc_x_vals.push_back(vars[i]);
+            }
+            else {
+              mpc_y_vals.push_back(vars[i]);
+            }
           }
 
           msgJson["mpc_x"] = mpc_x_vals;
@@ -200,10 +205,10 @@ int main() {
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
           // the points in the simulator are connected by a Green line
          
-          double poly_inc = Lf;
+          double poly_inc = 2.5;
           int num_points = 25;
-          for (int i = 0; i < num_points; i++ ) {
-            next_x_vals.push_back( poly_inc * i; );
+          for (int i = 1; i < num_points; i++ ) {
+            next_x_vals.push_back( poly_inc * i);
             next_y_vals.push_back( polyeval(coeffs, poly_inc * i));
           }
 

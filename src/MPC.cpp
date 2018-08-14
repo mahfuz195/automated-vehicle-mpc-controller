@@ -7,7 +7,7 @@ using CppAD::AD;
 
 // TODO: Set the timestep length and duration
 size_t N = 10;
-double dt = 0.05;
+double dt = 0.1;
 
 // This value assumes the model presented in the classroom is used.
 //
@@ -23,7 +23,7 @@ const double Lf = 2.67;
 
 const double ref_cte = 0;
 const double ref_epsi = 0;
-const double ref_v = 50;
+const double ref_v = 70;
 
 const size_t x_start = 0;
 const size_t y_start = x_start + N;
@@ -49,28 +49,32 @@ class FG_eval {
 
     // The cost is stored is the first element of `fg`.
     // Any additions to the cost should be added to `fg[0]`.
+    
+
+    //from lecture.
     fg[0] = 0;
 
      // The part of the cost based on the reference state.
-    for( unsigned int i = 0; i < N; i++ ) {
-      fg[0] += 1000*CppAD::pow(vars[cte_start + i] - ref_cte, 2);
-      fg[0] += 1000*CppAD::pow(vars[epsi_start + i] - ref_epsi, 2);
+    for(unsigned int i = 0; i < N; i++ ) {
+      fg[0] += 2000*CppAD::pow(vars[cte_start + i] - ref_cte, 2);
+      fg[0] += 2000*CppAD::pow(vars[epsi_start + i] - ref_epsi, 2);
       fg[0] += CppAD::pow(vars[v_start + i] - ref_v, 2);
     }
 
     // Minimize the use of actuators.
-    for (unsigned int i = 0; i< N - 1; i++) {
-      fg[0] += 50*CppAD::pow(vars[delta_start + i], 2);
-      fg[0] += 50*CppAD::pow(vars[a_start + i], 2);
+    for(unsigned int i = 0; i< N - 1; i++) {
+      fg[0] += 25*CppAD::pow(vars[delta_start + i], 2);
+      fg[0] += 25*CppAD::pow(vars[a_start + i], 2);
     }
 
     // Minimize the value gap between sequential actuations.
     // (how smooth the actuations are)
-    for (unsigned int i = 0; i < N - 2; i++) {
-      fg[0] += 250000*CppAD::pow(vars[delta_start + i + 1] - vars[delta_start + i], 2);
-      fg[0] += 5000*CppAD::pow(vars[a_start + i + 1] - vars[a_start + i], 2);
+    for(unsigned int i = 0; i < N - 2; i++) {
+      fg[0] += 400000*CppAD::pow(vars[delta_start + i + 1] - vars[delta_start + i], 2);
+      fg[0] += 8000*CppAD::pow(vars[a_start + i + 1] - vars[a_start + i], 2);
     }
 
+    // from lectrue.
     // Initial constraints.
     fg[1 + x_start] = vars[x_start];
     fg[1 + y_start] = vars[y_start];
@@ -78,7 +82,8 @@ class FG_eval {
     fg[1 + v_start] = vars[v_start];
     fg[1 + cte_start] = vars[cte_start];
     fg[1 + epsi_start] = vars[epsi_start];
-
+    
+    //from lecture.
     for (unsigned int t = 1; t < N; t++) {
       // The state at time t+1 .
       AD<double> x1 = vars[x_start + t];
@@ -100,9 +105,17 @@ class FG_eval {
       AD<double> delta0 = vars[delta_start + t - 1];
       AD<double> a0 = vars[a_start + t - 1];
 
-      AD<double> f0 = coeffs[0] + coeffs[1] * x0 + coeffs[2] * CppAD::pow(x0, 2) + coeffs[3] * CppAD::pow(x0, 3);
-      AD<double> psides0 = CppAD::atan(coeffs[1] + 2 * coeffs[2] * x0 + 3 * coeffs[3] * CppAD::pow(x0, 2));
+      //AD<double> f0 = coeffs[0] + coeffs[1] * x0 ;      
+      //AD<double> psides0 = CppAD::atan(coeffs[1]);
 
+      AD<double> c0 = coeffs[0];
+      AD<double> c1 = coeffs[1];
+      AD<double> c2 = coeffs[2];
+      AD<double> c3 = coeffs[3];
+      
+      
+      AD<double> f0 = c0 + (c1 * x0) + (c2*CppAD::pow(x0,2))+ (c3*CppAD::pow(x0, 3));
+      AD<double> psides0 = CppAD::atan(c1 + (2*c2*x0) + (3*c3*CppAD::pow(x0,2)));
       // Here's `x` to get you started.
       // The idea here is to constraint this value to be 0.
       //
@@ -145,10 +158,9 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
   // For example: If the state is a 4 element vector, the actuators is a 2
   // element vector and there are 10 timesteps. The number of variables is:
   //
-  // 4 * 10 + 2 * 9
-  const size_t n_vars = N * 6 + (N - 1) * 2;
+  unsigned int n_vars = N * 6 + (N - 1) * 2;
   // TODO: Set the number of constraints
-  const size_t n_constraints = N * 6;
+  unsigned int n_constraints = N * 6;
 
   // Initial value of the independent variables.
   // SHOULD BE 0 besides initial state.
@@ -251,7 +263,7 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
   result.push_back(solution.x[delta_start]);
   result.push_back(solution.x[a_start]);
 
-  for ( unsigned int i = 0; i < N - 2; i++ ) {
+  for ( unsigned int i = 0; i < N - 1; i++ ) {
     result.push_back(solution.x[x_start + i + 1]);
     result.push_back(solution.x[y_start + i + 1]);
   }
