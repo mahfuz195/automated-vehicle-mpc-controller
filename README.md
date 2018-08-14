@@ -69,6 +69,7 @@ double v_delay = v + a * dT;
 double cte_delay = cte0 + ( v * sin(epsi0) * dT );
 double epsi_delay = epsi0 - ( v * atan(coeffs[1]) * dT / Lf );     
 ```
+[image1]: model.PNG "Vehicle Model"
 
 where ```dT``` is the delay set to 100ms. 
 
