@@ -71,6 +71,8 @@ double epsi_delay = epsi0 - ( v * atan(coeffs[1]) * dT / Lf );
 ```
 [image1]: model.PNG "Vehicle Model"
 
+![alt text][image1]
+
 where ```dT``` is the delay set to 100ms. 
 
 ```a``` is the the throlttle value
